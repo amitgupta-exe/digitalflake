@@ -1,17 +1,22 @@
 
-export default   (products = [], action) => {
+const productsReducer = (state = [], action) => {
 
     switch (action.type) {
         case 'FETCH_ALL':
             return action.payload;
         case 'CREATE':
-            return [...products, action.payload];
+            return [...state, action.payload];
         case 'UPDATE':
-            return products.map((category) => { return (category._id === action.payload._id ? action.payload : category) });
+            return state.map((item) => { return (item._id === action.payload._id ? action.payload : item) });
         case 'DELETE':
-            return products.filter((post) => post._id !== action.payload);
+            return state.filter((item) => item._id !== action.payload);
         default:
-            return products;
+            return state;
     }
 
+
+
 }
+
+
+export default productsReducer;

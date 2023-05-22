@@ -1,13 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import FileBase from 'react-file-base64';
+import { Link } from 'react-router-dom';
 // import { createCategory, updateCategory } from '../../store/actions/categories';
-import { createProduct, updateProduct } from '../../store/api';
+import {  createProduct, updateProduct } from '../../store/api';
 
-const Form = ({ currentId, setCurrentId }) => {
+const AddNewProduct = ({ categories,setAddNew, currentId, setCurrentId }) => {
+
+
+
+
+
 
     const [productData, setProductData] = useState({ name: '', packSize: '', category: '', mrp: '', image: '', status: '' });
-    const product = useSelector((state) => (currentId ? state.p.find((message) => message._id === currentId) : null));
+    const product = useSelector((state) => (currentId ? state.products.find((product) => product._id === currentId) : null));
+
+
+
+
     const dispatch = useDispatch();
 
 
@@ -20,7 +30,7 @@ const Form = ({ currentId, setCurrentId }) => {
         setProductData({ name: '', packSize: '', category: '', mrp: '', image: '', status: '' });
     };
 
-    const handleSubmit = async  (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (currentId === 0) {
@@ -32,46 +42,76 @@ const Form = ({ currentId, setCurrentId }) => {
         }
     };
 
+
     return (
         <main className="form-container">
-            <form autoComplete="off" noValidate onSubmit={handleSubmit}>
 
-                <p> {currentId ? `Editing "${product.title}"` : 'Add a Product'} </p>
+            <form className='add-new-form' onSubmit={handleSubmit}>
+                <div className="input-grid">
+                    <div className="form-group">
+                        <label htmlFor="">Name</label>
+                        <input required value={productData.name} type="text" name="title" id="" onChange={(e) => setProductData({ ...productData, name: e.target.value })} />
+                    </div>
 
-                <div className="form-group">
-                    <label htmlFor="">Name</label>
-                    <input className='form-control' value={productData.name} placeholder='Name' type="text" name="title" id="" onChange={(e) => setProductData({ ...productData, name: e.target.value })} />
+                    <div className="form-group">
+                        <label htmlFor="">Pack Size</label>
+                        <input required value={productData.packSize} type="text" name="packsize" id="" onChange={(e) => setProductData({ ...productData, packSize: e.target.value })} />
+                    </div>
+
+
+                    <div className='form-group'>
+                        <label htmlFor="">Category</label>
+                        <select onChange={(e) => { setProductData({ ...productData, category: e.target.value }) }} defaultValue={"Select"} name="" id="">
+                            <option value="Select"></option>
+                            {
+
+                                categories.map((c) => {
+
+                                    console.log(c);
+
+                                    return (
+                                        <>
+                                            <option value={c.name}>{c.name}</option>
+                                        </>
+                                    )
+                                })
+                            }
+                        </select>
+                    </div>
+
+
+                    <div className="form-group">
+                        <label htmlFor="">MRP</label>
+                        <input required value={productData.mrp} type="text" name="price" id="" onChange={(e) => setProductData({ ...productData, mrp: e.target.value })} />
+                    </div>
+                    <div>
+                        <FileBase type="file" multiple={false} onDone={({ base64 }) => setProductData({ ...productData, image: base64 })} />
+                    </div>
+
+                    <div className="form-group">
+                        <label htmlFor="status">Status</label>
+                        <select defaultValue={"Select"} name="" id="" onChange={(e) => { setProductData({ ...productData, status: e.target.value }) }}>
+                            <option value="Select"></option>
+                            <option value="Active">Active</option>
+                            <option value="Inactive">Inactive</option>
+                        </select>
+                    </div>
                 </div>
 
-                <div className="form-group">
-                    <label htmlFor="">Pack Size</label>
-                    <input className='form-control' value={productData.packSize} placeholder='Description' type="text" name="description" id="" onChange={(e) => setProductData({ ...productData, packSize: e.target.value })} />
-                </div>
+                <div className='submit-btn-group'>
 
-                <div className="form-group">
-                    <label htmlFor="">Category</label>
-                    <input className='form-control' value={productData.category} placeholder='Price' type="text" name="price" id="" onChange={(e) => setProductData({ ...productData, category: e.target.value })} />
-                </div>
+                    <button className='white-btn round btn-secondary' onClick={() => { setAddNew(false) }} >Cancel</button>
 
-                <div className="form-group">
-                    <label htmlFor="">MRP</label>
-                    <input className='form-control' value={productData.mrp} placeholder='Price' type="text" name="price" id="" onChange={(e) => setProductData({ ...productData, mrp: e.target.value })} />
-                </div>
-                <div>
-                    <FileBase className="form-control" type="file" multiple={false} onDone={({ base64 }) => setProductData({ ...productData, image: base64 })} />
-                </div>
+                    <button className='white-btn round btn-secondary' type='button' onClick={clear}>Clear</button>
+                    
+                    <button className='purple-btn round btn-primary' type="submit">Save</button>
 
-                <div className="form-group">
-                    <label htmlFor="">Status</label>
-                    <input className='form-control' value={productData.status} placeholder='Price' type="text" name="price" id="" onChange={(e) => setProductData({ ...productData, status: e.target.value })} />
                 </div>
+                <p>After Save, Reload may be needed on error to add product due to async action dispatch (reason: redux-thunk not working completely)</p>
 
-                <button className='btn btn-primary' type="submit">Submit</button>
-                <button className='btn btn-secondary' onClick={clear}>Clear</button>
-                
             </form>
         </main>
     );
 };
 
-export default Form;
+export default AddNewProduct;

@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 
-import products from './products';
-import categories from './categories';
+import productsReducer from './products';
+import categoriesReducer from './categories';
 
-export const reducers = combineReducers({ c:categories ,p:products});
+export const reducers = combineReducers({ categories: categoriesReducer, products: productsReducer, });

@@ -16,10 +16,10 @@ export const getProducts = async (req, res) => {
 
 
 export const createProduct = async (req, res) => {
-    const { name, packsize, category, mrp, image, status } = req.body;
+    const { name, packSize, category, mrp, image, status } = req.body;
 
     const newProduct = new product({
-        name, packsize, category, mrp, image, status
+        name, packSize, category, mrp, image, status
     })
     try {
         await newProduct.save();
@@ -37,11 +37,11 @@ export const createProduct = async (req, res) => {
 export const updateProduct = async (req, res) => {
 
     const { id } = req.params;
-    const { name, packsize, category, mrp, image, status } = req.body;
+    const { name, packSize, category, mrp, image, status } = req.body;
 
     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
 
-    const updatedProduct = { name, packsize, category, mrp, image, status, _id: id };
+    const updatedProduct = { name, packSize, category, mrp, image, status, _id: id };
 
     await product.findByIdAndUpdate(id, updatedProduct, { new: true });
 

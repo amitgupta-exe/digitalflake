@@ -5,14 +5,15 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 
-import { createStore, applyMiddleware, compose } from 'redux';
+import { legacy_createStore as createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 
 import { Provider } from 'react-redux';
 import { reducers } from './store/reducers/index.js';
 
 // const sagaMiddleware = createSagaMiddleware();
-const store = createStore(reducers, applyMiddleware(thunk));
+const middleWareEnhancer = applyMiddleware(thunk);
+const store = createStore(reducers, middleWareEnhancer);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

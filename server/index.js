@@ -25,7 +25,6 @@ mongoose.set('strictQuery', true);
 
 mongoose.connect(CONNECTION_URL, {
     useNewUrlParser: true,
-    // useCreateIndex: true, //deprecated
     useUnifiedTopology: true
 })
     .then(() => {

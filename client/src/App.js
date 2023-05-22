@@ -12,26 +12,23 @@ import CategoriesPage from './pages/Categories/CategoriesPage';
 import ProductsPage from './pages/Products/ProductsPage';
 import NotAvailabePage from './pages/NotAvailabePage';
 import AddNewCategory from './pages/Categories/AddNewCategory';
+import AddNewProduct from './pages/Products/AddNewProduct'
 import Header from './components/Header';
-import { useState } from 'react';
-import LeftMenu from './components/LeftMenu';
 
 function App() {
 
-
   return (
+
     <main className='app'>
 
       <BrowserRouter>
-        <Header />
         <Routes>
-          <Route exact path="/home" element={[ <HomePage />]} />
           <Route exact path="/" element={<LoginPage />} />
-
-
-          <Route exact path="/categories" element={[ <CategoriesPage />]} />
-          <Route exact path="/products" element={[ <ProductsPage />]} />
-
+          <Route exact path="/home" element={[<Header />, <HomePage />]} />
+          <Route exact path="/categories" element={[<Header />, <CategoriesPage />]} />
+          <Route exact path="/products" element={[<Header />, <ProductsPage />]} />
+          <Route exact path="/add-categories" element={[<Header />, <AddNewCategory />]} />
+          <Route exact path="/add-products" element={[<Header />, <AddNewProduct />]} />
           <Route exact path="*" element={<NotAvailabePage />} />
         </Routes>
       </BrowserRouter>

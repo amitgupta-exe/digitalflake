@@ -11,10 +11,10 @@ export const getProducts = () => async (dispatch) => {
   }
 };
 
-export const createProduct = (category) => async (dispatch) => {
+export const createProduct = (product) => (dispatch) => {
   try {
-    
-    const { data } = await api.createProduct(category);
+
+    const { data } = api.createProduct(product);
     dispatch({ type: "CREATE", payload: data });
 
   } catch (error) {

@@ -1,9 +1,10 @@
 
-export default (users = [], action) => {
+export default (loggedin = [], action) => {
 
     switch (action.type) {
-        case 'FETCH_ALL':
-            return action.payload;
+        
+        case 'IS_LOGGED_IN':
+            return loggedin;
         default:
             return;
     }
